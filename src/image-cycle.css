@@ -1,6 +1,0 @@
-ul.image-cycle { list-style: none; padding: 0; }
-
-.image-cycle { max-width: 100%; position: relative; }
-.image-cycle > * { position: absolute; top: 0; left: 0; z-index: 0; opacity: 0; transition: opacity 300ms }
-.image-cycle > .active { z-index: 1; opacity: 1; transition: opacity 1000ms; }
-.image-cycle img { width: 100%; }

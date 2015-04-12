@@ -4,13 +4,12 @@
     <meta charset="UTF-8">
     <title>Image Cycle Example</title>
     <link rel="stylesheet" href="style.css" />
-    <link rel="stylesheet" href="/src/image-cycle.css" />
 </head>
 <body>
 <main>
     <h2>Image Cycle Demo</h2>
     <div class="wrapper">
-        <ul class="image-cycle" data-target="li" data-interval="2500" data-width="300px">
+        <ul class="image-cycle" data-target="li" data-interval="2500" data-width="300" data-speed="1000">
             <li class="active" ><img src="images/ex1.jpg"/></li>
             <li><img src="images/ex2.jpg" /></li>
             <li><img src="images/ex3.jpg" /></li>
@@ -18,5 +17,6 @@
     </div>
 </main>
 <script src="/src/image-cycle.js"></script>
+<script>imageCycle();</script>
 </body>
 </html>
