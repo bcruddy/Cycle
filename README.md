@@ -14,6 +14,10 @@ If using more than one instance of imageCycle, each requires a unique selector. 
 
 Selector defaults to `.image-cycle` if one is not given.
 
+Options are set via data-attributes.
+
+See `example/index.html` for a usage example.
+
 ### Options
 
 imageCycle's options are controlled via data attributes on your target element. Available options are:
