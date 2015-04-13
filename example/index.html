@@ -29,13 +29,8 @@
     </div>
 </main>
 <script src="/src/cycle.js"></script>
+<script src="example.js"></script>
 <script>
-    var ex1 = new Cycle('.cycle');
-
-    ex1.on('element:change', function (e) {
-        console.log('Cycle(\'%s\') fired %s', e.detail.settings.selector, e.type);
-    });
-
     var ex2 = new Cycle('.p-cycle');
     ex2.on('element:change', function (e) {
         console.log('%s fired %s', e.detail.settings.selector, e.type);

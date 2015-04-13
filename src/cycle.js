@@ -7,6 +7,7 @@
  *
  */
 
+
 /**
  * Cycle
  *
@@ -33,6 +34,7 @@ function Cycle (selector) {
     return this;
 }
 
+
 /**
  * Render Cycle elements
  *
@@ -55,6 +57,7 @@ Cycle.prototype.render = function () {
         _this.fire('element:change');
     }, this.interval);
 };
+
 
 /**
  * Set initial Cycle style with params from constructor
