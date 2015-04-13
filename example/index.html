@@ -10,7 +10,7 @@
     <h2>Image Cycle Demo</h2>
     <div class="wrapper">
         <div class="half">
-            <ul class="image-cycle" data-target="li" data-interval="2500" data-width="300" data-speed="1000">
+            <ul class="cycle" data-target="li" data-interval="2500" data-width="300" data-speed="1000">
                 <li class="active" ><img src="images/ex1.jpg"/></li>
                 <li><img src="images/ex2.jpg" /></li>
                 <li><img src="images/ex3.jpg" /></li>
@@ -18,21 +18,21 @@
         </div>
 
         <div class="half">
-            <ul class="image-cycle2" data-target="li" data-interval="3500" data-width="320" data-speed="2000">
-                <li class="active" ><img src="images/ex1.jpg"/></li>
-                <li><img src="images/ex2.jpg" /></li>
-                <li><img src="images/ex3.jpg" /></li>
-            </ul>
+            <div class="p-cycle" data-target="p" data-interval="3500" data-width="200" data-speed="2000">
+                <p class="active" style="width: 200px; height: 200px; background: red;">p 1</p>
+                <p style="width: 200px; height: 200px; background: blue;">p 2</p>
+                <p style="width: 200px; height: 200px; background: green;">p 3</p>
+            </div>
         </div>
     </div>
 </main>
-<script src="/src/image-cycle.js"></script>
+<script src="/src/cycle.js"></script>
 <script>
-    var ex1 = new Cycle('.image-cycle');
-    ex1.set('interval', '2000');
-    console.log(ex1.get('speed'));
+    var ex1 = new Cycle('.cycle');
 
-    var ex2 = new Cycle('.image-cycle2');
+    ex1.on('element:change', function (e) {
+        console.log('%s fired %s', e.detail.settings.selector, e.type);
+    });
 </script>
 </body>
 </html>
