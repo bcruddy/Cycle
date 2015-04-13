@@ -9,14 +9,30 @@
 <main>
     <h2>Image Cycle Demo</h2>
     <div class="wrapper">
-        <ul class="image-cycle" data-target="li" data-interval="2500" data-width="300" data-speed="1000">
-            <li class="active" ><img src="images/ex1.jpg"/></li>
-            <li><img src="images/ex2.jpg" /></li>
-            <li><img src="images/ex3.jpg" /></li>
-        </ul>
+        <div class="half">
+            <ul class="image-cycle" data-target="li" data-interval="2500" data-width="300" data-speed="1000">
+                <li class="active" ><img src="images/ex1.jpg"/></li>
+                <li><img src="images/ex2.jpg" /></li>
+                <li><img src="images/ex3.jpg" /></li>
+            </ul>
+        </div>
+
+        <div class="half">
+            <ul class="image-cycle2" data-target="li" data-interval="3500" data-width="320" data-speed="2000">
+                <li class="active" ><img src="images/ex1.jpg"/></li>
+                <li><img src="images/ex2.jpg" /></li>
+                <li><img src="images/ex3.jpg" /></li>
+            </ul>
+        </div>
     </div>
 </main>
 <script src="/src/image-cycle.js"></script>
-<script>imageCycle();</script>
+<script>
+    var ex1 = new Cycle('.image-cycle');
+    ex1.set('interval', '2000');
+    console.log(ex1.get('speed'));
+
+    var ex2 = new Cycle('.image-cycle2');
+</script>
 </body>
 </html>

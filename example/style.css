@@ -1,4 +1,7 @@
+* { box-sizing: border-box; }
+
 html, body { padding: 0; margin: 0; }
 main { margin: auto 10%; }
 ul { list-style: none; padding: 0; }
-.wrapper { margin: auto 20%; }
+.wrapper {}
+.half { display: inline-block; width: 49%; }
