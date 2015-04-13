@@ -4,6 +4,7 @@
  * Created by <brian at briancruddy dot com> on 4/12/15.
  * License: MIT (https://github.com/packofbadgers/Cycle/blob/master/LICENSE)
  * URL: https://github.com/packofbadgers/Cycle/
+ *
  */
 
 /**
@@ -130,6 +131,3 @@ Cycle.prototype.fire = function (name) {
 Cycle.prototype.on = function (event, callback) {
     document.addEventListener(event, callback, false);
 };
-
-
-
