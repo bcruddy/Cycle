@@ -5,16 +5,17 @@ example = window.example || {};
 
 example = {
 
-    ex1: '',
+    cycle: '',
 
     init: function () {
 
-        this.ex1 = new Cycle('.cycle');
+        this.cycle = new Cycle('.cycle');
 
-        this.ex1.on('element:change', function (e) {
-            console.log('Cycle(\'%s\') fired %s', e.detail.settings.selector, e.type);
+        this.cycle.on('element:change', function (e) {
+            console.log('[ Cycle | %s ]', e.type);
         });
 
+        console.log(this.cycle);
     }
 };
 example.init();

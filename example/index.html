@@ -9,32 +9,15 @@
 <main>
     <h2>Image Cycle Demo</h2>
     <div class="wrapper">
-        <div class="half">
-            <h4>Parent element: 'ul'<br />Child targets: 'li'</h4>
-            <ul class="cycle" data-target="li" data-interval="2500" data-width="300" data-speed="1000">
-                <li class="active" ><img src="images/ex1.jpg"/></li>
-                <li><img src="images/ex2.jpg" /></li>
-                <li><img src="images/ex3.jpg" /></li>
-            </ul>
-        </div>
-
-        <div class="half">
-            <h4>Parent element: 'div'<br />Child targets: 'p'</h4>
-            <div class="p-cycle" data-target="p" data-interval="5000" data-width="200" data-speed="2000">
-                <p class="active" style="width: 200px; height: 200px; background: red;">p 1</p>
-                <p style="width: 200px; height: 200px; background: blue;">p 2</p>
-                <p style="width: 200px; height: 200px; background: green;">p 3</p>
-            </div>
-        </div>
+        <h4>Parent element: 'ul'<br />Child targets: 'li'</h4>
+        <ul class="cycle" data-target="li" data-interval="2500" data-width="300" data-speed="1000">
+            <li class="active" ><img src="images/ex1.jpg"/></li>
+            <li><img src="images/ex2.jpg" /></li>
+            <li><img src="images/ex3.jpg" /></li>
+        </ul>
     </div>
 </main>
 <script src="/src/cycle.js"></script>
 <script src="example.js"></script>
-<script>
-    var ex2 = new Cycle('.p-cycle');
-    ex2.on('element:change', function (e) {
-        console.log('%s fired %s', e.detail.settings.selector, e.type);
-    });
-</script>
 </body>
 </html>
