@@ -28,7 +28,7 @@ imageCycle is a vanilla javascript plugin intended to cycle through images but c
         var ex1 = new Cycle('.image-cycle');
         ex1.set('interval', '2000'); // overrides 2500 set in data-attribute
         console.log(ex1.get('speed')); // returns and logs "2000"
-    
+
         var ex2 = new Cycle('.image-cycle2');
     </script>
 
