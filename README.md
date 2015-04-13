@@ -28,6 +28,10 @@ Cycle is a vanilla javascript plugin intended to cycle through images but will c
         var ex1 = new Cycle('.cycle');
         ex1.set('interval', '2000'); // override data-attribute
         console.log(ex1.get('speed')); // return & log "1000"
+       
+        ex1.on('element:change', function (e) {
+            console.log('Cycle(\'%s\') fired %s', e.detail.settings.selector, e.type);
+        });
     
         var ex2 = new Cycle('.p-cycle');
     </script>

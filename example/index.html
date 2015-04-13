@@ -33,7 +33,7 @@
     var ex1 = new Cycle('.cycle');
 
     ex1.on('element:change', function (e) {
-        console.log('%s fired %s', e.detail.settings.selector, e.type);
+        console.log('Cycle(\'%s\') fired %s', e.detail.settings.selector, e.type);
     });
 
     var ex2 = new Cycle('.p-cycle');
