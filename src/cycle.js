@@ -115,7 +115,9 @@ Cycle.prototype.fire = function (name) {
         }
     });
 
-    document.dispatchEvent(event);
+    if (this.selector === event.detail.settings.selector) {
+        document.dispatchEvent(event);
+    }
 };
 
 
