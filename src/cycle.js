@@ -61,9 +61,6 @@ Cycle.prototype.render = function () {
 
 /**
  * Set initial Cycle style with params from constructor
- *
- * {width} - width of Cycle parent
- * {speed} - transition speed
  */
 Cycle.prototype.style = function () {
     var styleSheet = (function() {
@@ -78,9 +75,9 @@ Cycle.prototype.style = function () {
     })();
 
     styleSheet.insertRule(this.selector + ' { max-width: 100%; position: relative; width: ' + this.width + 'px; }', 0);
-    styleSheet.insertRule(this.selector + ' > * { position: absolute; top: 0; left: 0; z-index: 0; opacity: 0; transition: opacity 300ms }', 0);
+    styleSheet.insertRule(this.selector + ' > ' + this.target + ' { position: absolute; top: 0; left: 0; bottom: 0; right: 0; z-index: 0; opacity: 0; transition: opacity 300ms; }', 0);
     styleSheet.insertRule(this.selector + ' > .active { z-index: 1; opacity: 1; transition: opacity ' + this.speed + 'ms; }', 0);
-    styleSheet.insertRule(this.selector + ' img { width: 100%; }', 0);
+    styleSheet.insertRule(this.selector + ' img { width: 100%; box-shadow: 0 0 3px 3px rgba(25, 25, 25, 0.5); }', 0);
 };
 
 
