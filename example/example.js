@@ -3,7 +3,7 @@
  */
 example = window.example || {};
 
-example = {
+ex = {
 
     cycle: '',
 
@@ -11,11 +11,13 @@ example = {
 
         this.cycle = new Cycle('.cycle');
 
-        this.cycle.on('element:change', function (e) {
-            console.log('[ Cycle | %s ]', e.type);
-        });
+        this.cycle.on('cycle:change', function (e) {});
+
+        this.cycle.on('cycle:set', function (e) {});
+
+        this.cycle.on('cycle:render', function (e) {});
 
         console.log(this.cycle);
     }
 };
-example.init();
+ex.init();

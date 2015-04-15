@@ -7,6 +7,7 @@
  *
  */
 
+'use strict';
 
 /**
  * Cycle
@@ -29,18 +30,18 @@ function Cycle (selector) {
     this.images = document.querySelectorAll(selector + ' ' + this.target);
 
     this.style();
-    this.render();
+    this.loop();
 
     return this;
 }
 
 
 /**
- * Render Cycle elements
+ * Start Cycle elements
  *
  * @event cycle:change - fires on each iteration/image change
  */
-Cycle.prototype.render = function () {
+Cycle.prototype.loop = function () {
     var _this = this,
         i = 1; // item at index 0 already active on init
 
@@ -54,7 +55,7 @@ Cycle.prototype.render = function () {
         _this.images[i].classList.add('active');
         i++;
 
-        _this.fire('element:change');
+        _this.fire('cycle:change');
     }, this.interval);
 };
 
@@ -63,6 +64,7 @@ Cycle.prototype.render = function () {
  * Set initial Cycle style with params from constructor
  */
 Cycle.prototype.style = function () {
+
     var styleSheet = (function() {
         var style = document.createElement('style');
 
@@ -82,29 +84,6 @@ Cycle.prototype.style = function () {
 
 
 /**
- * Set Cycle property
- *
- * @param property
- * @param value
- */
-Cycle.prototype.set = function (property, value) {
-    this[property] = value;
-    this.fire('cycle:set');
-};
-
-
-/**
- * Get Cycle property
- *
- * @param property
- * @returns {*}
- */
-Cycle.prototype.get = function (property) {
-    return this[property];
-};
-
-
-/**
  * Fire Cycle event
  *
  * @param name
@@ -116,9 +95,7 @@ Cycle.prototype.fire = function (name) {
         }
     });
 
-    if (this.selector === event.detail.settings.selector) {
-        document.dispatchEvent(event);
-    }
+    document.dispatchEvent(event);
 };
 
 
