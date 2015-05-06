@@ -1,5 +1,5 @@
 /**
- * Cycle - a dependency free javascript plugin
+ * Cycle - a dependency free javascript plugin for cycling through images
  *
  * Created by <brian at briancruddy dot com> on 4/12/15.
  * License: MIT (https://github.com/packofbadgers/Cycle/blob/master/LICENSE)
@@ -10,7 +10,10 @@
 'use strict';
 
 /**
- * Cycle
+ * Usage:
+ *      var cycle = new Cycle('selector');
+ *          - OR -
+ *      new Cycle('selector');
  *
  * @param selector
  * @returns {Cycle}
@@ -18,30 +21,37 @@
  */
 function Cycle (selector) {
 
-    function _data(selector, attr) {
+    function _data(attr) {
         return document.querySelector(selector).dataset[attr];
     }
 
-    this.selector = selector || '.cycle';
-    this.target = _data(selector, 'target') || 'li';
-    this.interval = _data(selector, 'interval') || '2500';
-    this.width = _data(selector, 'width') || '300';
-    this.speed = _data(selector, 'speed') || '1000';
-    this.images = document.querySelectorAll(selector + ' ' + this.target);
+    var defaults = {
+        selector: '.cycle',
+        target: 'li',
+        interval: '2500',
+        width: '300',
+        speed: '1000'
+    };
 
-    this.style();
-    this.loop();
+    this.selector = selector || defaults.selector;
+    this.target = _data('target') || defaults.target;
+    this.interval = _data('interval') || defaults.interval;
+    this.width = _data('width') || defaults.width;
+    this.speed = _data('speed') || defaults.speed;
+    this.images = document.querySelectorAll(this.selector + ' ' + this.target);
+
+    this.init();
 
     return this;
 }
 
-
 /**
- * Start Cycle elements
  *
- * @event cycle:change - fires on each iteration/image change
  */
-Cycle.prototype.loop = function () {
+Cycle.prototype.init = function () {
+
+    this.style(); // inject Cycle style
+
     var _this = this,
         i = 1; // item at index 0 already active on init
 
@@ -59,9 +69,8 @@ Cycle.prototype.loop = function () {
     }, this.interval);
 };
 
-
 /**
- * Set initial Cycle style with params from constructor
+ *
  */
 Cycle.prototype.style = function () {
 
@@ -78,17 +87,17 @@ Cycle.prototype.style = function () {
 
     styleSheet.insertRule(this.selector + ' { max-width: 100%; position: relative; width: ' + this.width + 'px; }', 0);
     styleSheet.insertRule(this.selector + ' > ' + this.target + ' { position: absolute; top: 0; left: 0; bottom: 0; right: 0; z-index: 0; opacity: 0; transition: opacity 300ms; }', 0);
+    styleSheet.insertRule(this.selector + ' > ' + this.target + ':first-child { position: static; }', 0);
     styleSheet.insertRule(this.selector + ' > .active { z-index: 1; opacity: 1; transition: opacity ' + this.speed + 'ms; }', 0);
-    styleSheet.insertRule(this.selector + ' img { width: 100%; box-shadow: 0 0 3px 3px rgba(25, 25, 25, 0.5); }', 0);
+    styleSheet.insertRule(this.selector + ' img { width: 100%; box-shadow: 3px 3px 12px rgba(0, 0, 0, 0.4); }', 0);
 };
 
-
 /**
- * Fire Cycle event
  *
  * @param name
  */
 Cycle.prototype.fire = function (name) {
+
     var event = new CustomEvent(name, {
         detail: {
             settings: this
@@ -98,9 +107,7 @@ Cycle.prototype.fire = function (name) {
     document.dispatchEvent(event);
 };
 
-
 /**
- * Listen for Cycle event
  *
  * @param event
  * @param callback
