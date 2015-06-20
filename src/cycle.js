@@ -2,8 +2,8 @@
  * Cycle - a dependency free javascript plugin for cycling through images
  *
  * Created by <brian at briancruddy dot com> on 4/12/15.
- * License: MIT (https://github.com/packofbadgers/Cycle/blob/master/LICENSE)
- * URL: https://github.com/packofbadgers/Cycle/
+ * License: MIT (https://github.com/bcruddy/Cycle/blob/master/LICENSE)
+ * URL: https://github.com/bcruddy/Cycle/
  *
  */
 
@@ -49,47 +49,48 @@ function Cycle (selector) {
  *
  */
 Cycle.prototype.init = function () {
-
     this.style(); // inject Cycle style
 
-    var _this = this,
-        i = 1; // item at index 0 already active on init
+    var i = 1;
 
-    setInterval(function () {
-        if (i === _this.images.length) { i = 0; }
+    setInterval((function () {
+        if (this.images.length === i) i = 0;
 
-        for (var j = 0; j < _this.images.length; j++) {
-            _this.images[j].classList.remove('active');
+        for (var j = 0; j < this.images.length; j++) {
+            this.images[j].classList.remove('active');
         }
 
-        _this.images[i].classList.add('active');
-        i++;
+        this.images[i].classList.add('active');
 
-        _this.fire('cycle:change');
-    }, this.interval);
+        i++;
+        this.fire('cycle:change');
+    }).bind(this), this.interval);
 };
 
 /**
  *
  */
 Cycle.prototype.style = function () {
+    var styleSheet, rules;
 
-    var styleSheet = (function() {
+    styleSheet = (function() {
         var style = document.createElement('style');
-
-        // webkit hack
-        style.appendChild(document.createTextNode(''));
-
+        style.appendChild(document.createTextNode('')); // webkit hack
         document.head.appendChild(style);
-
         return style.sheet;
     })();
 
-    styleSheet.insertRule(this.selector + ' { max-width: 100%; position: relative; width: ' + this.width + 'px; }', 0);
-    styleSheet.insertRule(this.selector + ' > ' + this.target + ' { position: absolute; top: 0; left: 0; bottom: 0; right: 0; z-index: 0; opacity: 0; transition: opacity 300ms; }', 0);
-    styleSheet.insertRule(this.selector + ' > ' + this.target + ':first-child { position: static; }', 0);
-    styleSheet.insertRule(this.selector + ' > .active { z-index: 1; opacity: 1; transition: opacity ' + this.speed + 'ms; }', 0);
-    styleSheet.insertRule(this.selector + ' img { width: 100%; box-shadow: 3px 3px 12px rgba(0, 0, 0, 0.4); }', 0);
+    rules = [
+        this.selector + ' { max-width: 100%; position: relative; width: ' + this.width + 'px; }',
+        this.selector + ' > ' + this.target + ' { position: absolute; top: 0; left: 0; bottom: 0; right: 0; z-index: 0; opacity: 0; transition: opacity 300ms; }',
+        this.selector + ' > ' + this.target + ':first-child { position: static; }',
+        this.selector + ' > .active { z-index: 1; opacity: 1; transition: opacity ' + this.speed + 'ms; }',
+        this.selector + ' img { width: 100%; box-shadow: 3px 3px 12px rgba(0, 0, 0, 0.4); }'
+    ];
+
+    rules.forEach(function (rule) {
+        styleSheet.insertRule(rule, 0);
+    });
 };
 
 /**
@@ -97,13 +98,9 @@ Cycle.prototype.style = function () {
  * @param name
  */
 Cycle.prototype.fire = function (name) {
-
     var event = new CustomEvent(name, {
-        detail: {
-            settings: this
-        }
+        detail: { settings: this }
     });
-
     document.dispatchEvent(event);
 };
 
