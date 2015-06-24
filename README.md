@@ -38,3 +38,7 @@ Each cycle event object contains a `detail` parameter containing that instance's
 
 Clone/fork the repo and you the example directory is good to go.
 
+
+### License
+
+[MIT](https://github.com/bcruddy/Cycle/blob/master/LICENSE)
