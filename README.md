@@ -4,7 +4,7 @@ Cycle is a vanilla javascript plugin intended to cycle through images but will c
 
 ### Usage
 
-If using more than one instance of imageCycle, each requires a unique selector. If using two instances on a single page, they need to be instantiated twice, eg:
+If using more than one instance of Cycle, each requires a unique selector. If using two instances on a single page, they need to be instantiated twice, eg:
 
 Selector defaults to `.cycle` if one is not given.
 
@@ -14,23 +14,23 @@ See `example/index.html` for a usage example.
 
 ### Options
 
-imageCycle's options are controlled via data attributes on your target element. Available options are:
+Cycle's options are controlled via data attributes on your target element. Available options are:
 
-- target: elements targeted by imageCycle (default: `li`)
+- `data-target`: elements targeted by Cycle (default: `li`)
 
-- interval: interval between changes in ms (default: `2500`)
+- `data-interval`: interval between changes in ms (default: `2500`)
 
-- width: max width of the imageCycle container (default: `300`)
+- `data-width`: max width of the Cycle container (default: `300`)
 
-- speed: speed of transition between elements (default: `1000`)
+- `data-speed`: speed of transition between elements (default: `1000`)
 
 ### API
 
-`.on(event)` add event listener to Cycle object
+`.on(event, callback)` attach event listener to Cycle object.
 
 ### Events
 
-Each cycle event object contains a `detail` parameter containing that instance's settings.
+Each cycle event object contains a `detail` parameter containing that instance's settings and a `data` object.
 
 `cycle:change` fires each time a new image is rendered
 

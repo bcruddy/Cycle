@@ -12,13 +12,18 @@ ex = {
     init: function () {
 
         this.cycle = new Cycle('.cycle');
-        // OR
-        // new Cycle('.cycle');
 
-        this.cycle.on('cycle:change', function () {
-            console.log('Changed!');
+        this.cycle.on('cycle:change', function (e) {
+        	var cycleObject, data;
+
+            cycleObject = e.detail.settings;
+            data = e.detail.data;
+
+            console.log(cycleObject, data);
+
+            console.count();
         });
 
-    }
+    },
 };
 ex.init();

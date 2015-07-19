@@ -1,7 +1,13 @@
 * { box-sizing: border-box; }
 
-html, body { padding: 0; margin: 0; }
-main { margin: auto 10%; }
-ul { list-style: none; padding: 0; }
+html, body { padding: 0 0 100px 0; margin: 0; }
+.wrapper { margin: auto 5%; }
+aside, main { float: left;}
+main { max-width: 60%; padding: 0 30px; }
+code { background: #EEE; color: rgb(236, 14, 14); padding: 1px 3px; }
 
-.wrapper { margin: auto 20%; }
+footer { position: fixed; bottom: 0; left: 0; right: 0; height: 50px; text-align: center; padding: 10px;
+	background-color: whitesmoke; font-size: 85%; }
+
+footer a { text-decoration: none; color: #333; }
+footer a:hover { opacity: 0.7; }

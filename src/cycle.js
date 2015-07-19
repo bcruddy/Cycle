@@ -1,7 +1,7 @@
 /**
  * Cycle - a dependency free javascript plugin for cycling through images
  *
- * Created by <brian at briancruddy dot com> on 4/12/15.
+ * Created by <briancruddy at gmail dot com> @bcruddy
  * License: MIT (https://github.com/bcruddy/Cycle/blob/master/LICENSE)
  * URL: https://github.com/bcruddy/Cycle/
  *
@@ -10,14 +10,9 @@
 'use strict';
 
 /**
- * Usage:
- *      var cycle = new Cycle('selector');
- *          - OR -
- *      new Cycle('selector');
- *
+ * @constructor {Cycle}
  * @param selector
  * @returns {Cycle}
- * @constructor
  */
 function Cycle (selector) {
 
@@ -40,35 +35,34 @@ function Cycle (selector) {
     this.speed = _data('speed') || defaults.speed;
     this.images = document.querySelectorAll(this.selector + ' ' + this.target);
 
-    this.init();
+    this.style().init();
 
     return this;
 }
 
 /**
- *
+ * Start Cycle, infinite loop
+ * @void
  */
 Cycle.prototype.init = function () {
-    this.style(); // inject Cycle style
-
-    var i = 1;
+    var nextIndex = 1;
 
     setInterval((function () {
-        if (this.images.length === i) i = 0;
-
         for (var j = 0; j < this.images.length; j++) {
             this.images[j].classList.remove('active');
         }
 
-        this.images[i].classList.add('active');
+        nextIndex %= this.images.length;
+        this.images[nextIndex].classList.add('active');
+        nextIndex++;
 
-        i++;
-        this.fire('cycle:change');
+        this.fire('cycle:change', { nextIndex: nextIndex });
     }).bind(this), this.interval);
 };
 
 /**
- *
+ * Inject CSS
+ * @return {Cycle} [description]
  */
 Cycle.prototype.style = function () {
     var styleSheet, rules;
@@ -81,7 +75,7 @@ Cycle.prototype.style = function () {
     })();
 
     rules = [
-        this.selector + ' { max-width: 100%; position: relative; width: ' + this.width + 'px; }',
+        this.selector + ' { max-width: 100%; position: relative; width: ' + this.width + 'px; list-style: none; padding: 0; }',
         this.selector + ' > ' + this.target + ' { position: absolute; top: 0; left: 0; bottom: 0; right: 0; z-index: 0; opacity: 0; transition: opacity 300ms; }',
         this.selector + ' > ' + this.target + ':first-child { position: static; }',
         this.selector + ' > .active { z-index: 1; opacity: 1; transition: opacity ' + this.speed + 'ms; }',
@@ -91,24 +85,36 @@ Cycle.prototype.style = function () {
     rules.forEach(function (rule) {
         styleSheet.insertRule(rule, 0);
     });
+
+    return this;
 };
 
 /**
- *
- * @param name
+ * Fire events
+ * @param  {String} name  [description]
+ * @param  {*} info       [description]
+ * @return {Cycle}        [description]
  */
-Cycle.prototype.fire = function (name) {
+Cycle.prototype.fire = function (name, data) {
     var event = new CustomEvent(name, {
-        detail: { settings: this }
+        detail: { 
+            settings: this,
+            data: data
+        }
     });
     document.dispatchEvent(event);
+
+    return this;
 };
 
 /**
- *
- * @param event
- * @param callback
+ * Event listener
+ * @param  {String}   event    [event name]
+ * @param  {Function} callback [description]
+ * @return {Cycle}            [description]
  */
 Cycle.prototype.on = function (event, callback) {
     document.addEventListener(event, callback, false);
+
+    return this;
 };

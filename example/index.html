@@ -6,17 +6,36 @@
     <link rel="stylesheet" href="example.css" />
 </head>
 <body>
-<main>
-    <h2>Image Cycle Demo</h2>
     <div class="wrapper">
-        <ul class="cycle" data-target="li" data-interval="2500" data-width="300" data-speed="1000">
-            <li class="active" ><img src="images/ex1.jpg"/></li>
-            <li><img src="images/ex2.jpg" /></li>
-            <li><img src="images/ex3.jpg" /></li>
-        </ul>
+        <main style="float: left; max-width: 60%; padding: 0 30px;">
+            <h2>Cycle Config</h2>
+            <strong>Cycle's options are controlled via data attributes on your target element. Available options are:<strong>
+
+            <ul>
+                <li><code>data-target</code> elements targeted by Cycle (default: <code>li</code>)</li>
+                <li><code>data-interval</code> interval between changes in ms (default: <code>2500</code>)</li>
+                <li><code>data-width</code> max width of the Cycle container (default: <code>300</code>)</li>
+                <li><code>data-speed</code> speed of transition between elements (default: <code>1000</code>)</li>
+            </ul>
+        </main>
+
+        <aside style="float: left;">
+            <h2>Cycle Demo</h2>
+            <ul class="cycle" data-target="li" data-interval="2500" data-width="300" data-speed="1000">
+                <li class="active" ><img src="images/ex1.jpg"/></li>
+                <li><img src="images/ex2.jpg" /></li>
+                <li><img src="images/ex3.jpg" /></li>
+            </ul>
+        </aside>
+
+        <div style="clear:both; height: 0"></div>
     </div>
-</main>
-<script src="/src/cycle.js"></script>
-<script src="example.js"></script>
+
+    <footer>
+        <a href="https://github.com/bcruddy/Cycle">Source</a>
+    </footer>
+
+    <script src="/src/cycle.js"></script>
+    <script src="example.js"></script>
 </body>
 </html>
