@@ -110,8 +110,8 @@ Cycle.prototype.fire = function (name, data) {
 /**
  * Event listener
  * @param  {String}   event    [event name]
- * @param  {Function} callback [description]
- * @return {Cycle}            [description]
+ * @param  {Function} callback [fn]
+ * @return {Cycle}             [description]
  */
 Cycle.prototype.on = function (event, callback) {
     document.addEventListener(event, callback, false);
