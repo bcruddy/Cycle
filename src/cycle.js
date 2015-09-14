@@ -9,7 +9,7 @@
 
 'use strict';
 
-var helpers = (function () {
+var cycle = (function () {
 
     return {
         getDataAttribute: function (selector, attribute) {
@@ -22,22 +22,44 @@ var helpers = (function () {
             return false;
         },
 
-        getDefaultOptions: function () {
-            return {
+        getDefaultOptions: function (option) {
+            var defaults = {
                 selector: '.cycle',
                 target: 'li',
                 interval: '2500',
                 width: '300',
                 speed: '1000'
             };
+
+            return !option ? defaults : defaults[option];
         },
 
         getItemsToCycle: function (parentSelector, targetSelector) {
             var selector = [parentSelector, targetSelector].join(' ');
 
             return document.querySelectorAll(selector);
+        },
+
+        removeClassFromElements: function (elements, _class) {
+            for (var i = 0; i < elements.length; i++) {
+                elements[i].classList.remove(_class);
+            }
+        },
+
+        makeNextItemActive: function (items, index) {
+            index %= items.length;
+            items[index].classList.add('active');
+        },
+
+        generateEmptyStyleSheet: function () {
+            var style = document.createElement('style');
+
+            style.appendChild(document.createTextNode('')); // webkit hack
+            document.head.appendChild(style);
+
+            return style.sheet;
         }
-    }
+    };
 
 })();
 
@@ -48,15 +70,15 @@ var helpers = (function () {
  */
 function Cycle (selector) {
 
-    var defaults = helpers.getDefaultOptions();
+    var defaults = cycle.getDefaultOptions();
 
     this.selector = selector || defaults.selector;
-    this.target = helpers.getDataAttribute(selector, 'target') || defaults.target;
-    this.interval = helpers.getDataAttribute(selector, 'interval') || defaults.interval;
-    this.width = helpers.getDataAttribute(selector, 'width') || defaults.width;
-    this.speed = helpers.getDataAttribute(selector, 'speed') || defaults.speed;
+    this.target = cycle.getDataAttribute(selector, 'target') || defaults.target;
+    this.interval = cycle.getDataAttribute(selector, 'interval') || defaults.interval;
+    this.width = cycle.getDataAttribute(selector, 'width') || defaults.width;
+    this.speed = cycle.getDataAttribute(selector, 'speed') || defaults.speed;
 
-    this.items = helpers.getItemsToCycle(selector, this.target);
+    this.items = cycle.getItemsToCycle(selector, this.target);
 
     this.style().init();
 
@@ -71,13 +93,8 @@ Cycle.prototype.init = function () {
     var nextIndex = 1;
 
     setInterval((function () {
-        for (var j = 0; j < this.items.length; j++) {
-            this.items[j].classList.remove('active');
-        }
-
-        nextIndex %= this.items.length;
-        this.items[nextIndex].classList.add('active');
-        nextIndex++;
+        cycle.removeClassFromElements(this.items, 'active');
+        cycle.makeNextItemActive(this.items, nextIndex++);
 
         this.fire('cycle:change', { nextIndex: nextIndex });
     }).bind(this), this.interval);
@@ -90,12 +107,7 @@ Cycle.prototype.init = function () {
 Cycle.prototype.style = function () {
     var styleSheet, rules;
 
-    styleSheet = (function() {
-        var style = document.createElement('style');
-        style.appendChild(document.createTextNode('')); // webkit hack
-        document.head.appendChild(style);
-        return style.sheet;
-    })();
+    styleSheet = cycle.generateEmptyStyleSheet();
 
     rules = [
         this.selector + ' { max-width: 100%; position: relative; width: ' + this.width + 'px; list-style: none; padding: 0; }',

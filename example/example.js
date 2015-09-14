@@ -3,27 +3,25 @@
  */
 'use strict';
 
-var ex = window.ex || {};
 
-ex = {
+var example = (function () {
+    var cycle = new Cycle('.cycle');
 
-    cycle: '',
+    cycle.on('cycle:change', function (e) {
+        var cycleObject, data;
 
-    init: function () {
+        cycleObject = e.detail.settings;
+        data = e.detail.data;
 
-        this.cycle = new Cycle('.cycle');
+        console.log(cycleObject, data);
+        console.count();
+    });
 
-        this.cycle.on('cycle:change', function (e) {
-        	var cycleObject, data;
+    return {
+        info: 'cycle started',
+        cycle: cycle
+    };
 
-            cycleObject = e.detail.settings;
-            data = e.detail.data;
+})();
 
-            console.log(cycleObject, data);
-
-            console.count();
-        });
-
-    },
-};
-ex.init();
+console.log(example.info, example.cycle);
