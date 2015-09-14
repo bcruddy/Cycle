@@ -23,5 +23,6 @@ var example = (function () {
     };
 
 })();
-
+console.log('----- CYCLE INFO -----');
 console.log(example.info, example.cycle);
+console.log('----- START CYCLE -----');

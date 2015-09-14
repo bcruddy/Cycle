@@ -24,6 +24,12 @@ Cycle's options are controlled via data attributes on your target element. Avail
 
 - `data-speed`: speed of transition between elements (default: `1000`)
 
+- `data-captionposition`: top or bottom of the cycle element (default: `bottom`)
+
+- `data-captioncolor`: caption color (default: `#333`)
+
+- `data-captionbg`: caption background color (default: `rgba(255, 255, 255, 0.75)`)
+
 ### API
 
 `.on(event, callback)` attach event listener to Cycle object.

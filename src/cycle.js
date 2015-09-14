@@ -28,13 +28,16 @@ var cycle = (function () {
                 target: 'li',
                 interval: '2500',
                 width: '300',
-                speed: '1000'
+                speed: '1000',
+                captionPosition: 'bottom',
+                captionColor: '#333',
+                captionBgColor: 'rgba(255, 255, 255, 0.75)'
             };
 
             return !option ? defaults : defaults[option];
         },
 
-        getItemsToCycle: function (parentSelector, targetSelector) {
+        getChildItems: function (parentSelector, targetSelector) {
             var selector = [parentSelector, targetSelector].join(' ');
 
             return document.querySelectorAll(selector);
@@ -78,7 +81,12 @@ function Cycle (selector) {
     this.width = cycle.getDataAttribute(selector, 'width') || defaults.width;
     this.speed = cycle.getDataAttribute(selector, 'speed') || defaults.speed;
 
-    this.items = cycle.getItemsToCycle(selector, this.target);
+    this.captionPosition = cycle.getDataAttribute(selector, 'captionposition') || defaults.captionPosition;
+    this.captionColor = cycle.getDataAttribute(selector, 'captioncolor') || defaults.captionColor;
+    this.captionBgColor = cycle.getDataAttribute(selector, 'captionbg') || defaults.captionBgColor;
+
+    this.items = cycle.getChildItems(selector, this.target);
+    this.captions = cycle.getChildItems(selector, '.cycle-caption');
 
     this.style().init();
 
@@ -117,6 +125,10 @@ Cycle.prototype.style = function () {
         this.selector + ' img { width: 100%; box-shadow: 3px 3px 12px rgba(0, 0, 0, 0.4); }'
     ];
 
+    if (this.captions.length > 0) {
+        rules.push(this.selector + ' .cycle-caption { position: absolute; left: 0; right: 0; padding: 5px 10px; ' + this.captionPosition + ': 4px; background-color: ' + this.captionBgColor + '; color: ' + this.captionColor + ' }');
+    }
+
     rules.forEach(function (rule) {
         styleSheet.insertRule(rule, 0);
     });
@@ -127,7 +139,7 @@ Cycle.prototype.style = function () {
 /**
  * Fire events
  * @param  {String} name  [description]
- * @param  {*} info       [description]
+ * @param  {*} data       [description]
  * @return {Cycle}        [description]
  */
 Cycle.prototype.fire = function (name, data) {

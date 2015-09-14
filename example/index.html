@@ -4,15 +4,6 @@
     <meta charset="UTF-8">
     <title>Image Cycle Example</title>
     <link rel="stylesheet" href="example.css" />
-
-    <style>
-        .cycle-caption {
-            position: absolute;
-            bottom: 10%;
-            left: 2%;
-            right: 2%;
-        }
-    </style>
 </head>
 <body>
     <div class="wrapper">
@@ -30,7 +21,7 @@
 
         <aside style="float: left;">
             <h2>Cycle Demo</h2>
-            <ul class="cycle" data-target="li" data-interval="2500" data-width="300" data-speed="1000">
+            <ul class="cycle" data-target="li" data-interval="2500" data-width="300" data-speed="1000" data-captionposition="bottom" data-captioncolor="#333" data-captionbg="rgba(255, 255, 255, 0.75)">
                 <li class="active" >
                     <img src="images/ex1.jpg"/>
                     <a href="#" class="cycle-caption">This is a caption</a>
