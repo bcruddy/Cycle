@@ -9,6 +9,38 @@
 
 'use strict';
 
+var helpers = (function () {
+
+    return {
+        getDataAttribute: function (selector, attribute) {
+            var target = document.querySelector(selector);
+
+            if (target.dataset.hasOwnProperty(attribute)) {
+                return target.dataset[attribute]
+            }
+
+            return false;
+        },
+
+        getDefaultOptions: function () {
+            return {
+                selector: '.cycle',
+                target: 'li',
+                interval: '2500',
+                width: '300',
+                speed: '1000'
+            };
+        },
+
+        getItemsToCycle: function (parentSelector, targetSelector) {
+            var selector = [parentSelector, targetSelector].join(' ');
+
+            return document.querySelectorAll(selector);
+        }
+    }
+
+})();
+
 /**
  * @constructor {Cycle}
  * @param selector
@@ -16,24 +48,15 @@
  */
 function Cycle (selector) {
 
-    function _data(attr) {
-        return document.querySelector(selector).dataset[attr];
-    }
-
-    var defaults = {
-        selector: '.cycle',
-        target: 'li',
-        interval: '2500',
-        width: '300',
-        speed: '1000'
-    };
+    var defaults = helpers.getDefaultOptions();
 
     this.selector = selector || defaults.selector;
-    this.target = _data('target') || defaults.target;
-    this.interval = _data('interval') || defaults.interval;
-    this.width = _data('width') || defaults.width;
-    this.speed = _data('speed') || defaults.speed;
-    this.images = document.querySelectorAll(this.selector + ' ' + this.target);
+    this.target = helpers.getDataAttribute(selector, 'target') || defaults.target;
+    this.interval = helpers.getDataAttribute(selector, 'interval') || defaults.interval;
+    this.width = helpers.getDataAttribute(selector, 'width') || defaults.width;
+    this.speed = helpers.getDataAttribute(selector, 'speed') || defaults.speed;
+
+    this.items = helpers.getItemsToCycle(selector, this.target);
 
     this.style().init();
 
@@ -48,12 +71,12 @@ Cycle.prototype.init = function () {
     var nextIndex = 1;
 
     setInterval((function () {
-        for (var j = 0; j < this.images.length; j++) {
-            this.images[j].classList.remove('active');
+        for (var j = 0; j < this.items.length; j++) {
+            this.items[j].classList.remove('active');
         }
 
-        nextIndex %= this.images.length;
-        this.images[nextIndex].classList.add('active');
+        nextIndex %= this.items.length;
+        this.items[nextIndex].classList.add('active');
         nextIndex++;
 
         this.fire('cycle:change', { nextIndex: nextIndex });

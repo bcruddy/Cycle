@@ -4,12 +4,21 @@
     <meta charset="UTF-8">
     <title>Image Cycle Example</title>
     <link rel="stylesheet" href="example.css" />
+
+    <style>
+        .cycle-caption {
+            position: absolute;
+            bottom: 10%;
+            left: 2%;
+            right: 2%;
+        }
+    </style>
 </head>
 <body>
     <div class="wrapper">
         <main style="float: left; max-width: 60%; padding: 0 30px;">
             <h2>Cycle Config</h2>
-            <strong>Cycle's options are controlled via data attributes on your target element. Available options are:<strong>
+            <strong>Cycle's options are controlled via data attributes on your target element. Available options are:</strong>
 
             <ul>
                 <li><code>data-target</code> elements targeted by Cycle (default: <code>li</code>)</li>
@@ -22,9 +31,18 @@
         <aside style="float: left;">
             <h2>Cycle Demo</h2>
             <ul class="cycle" data-target="li" data-interval="2500" data-width="300" data-speed="1000">
-                <li class="active" ><img src="images/ex1.jpg"/></li>
-                <li><img src="images/ex2.jpg" /></li>
-                <li><img src="images/ex3.jpg" /></li>
+                <li class="active" >
+                    <img src="images/ex1.jpg"/>
+                    <a href="#" class="cycle-caption">This is a caption</a>
+                </li>
+                <li>
+                    <img src="images/ex2.jpg" />
+                    <a href="#" class="cycle-caption">This is a caption</a>
+                </li>
+                <li>
+                    <img src="images/ex3.jpg" />
+                    <a href="#" class="cycle-caption">This is a caption</a>
+                </li>
             </ul>
         </aside>
 
