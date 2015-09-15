@@ -1,0 +1,25 @@
+{
+  "name": "Cycle",
+  "version": "0.0.2",
+  "homepage": "https://github.com/bcruddy/Cycle",
+  "authors": [
+    "ruddy <briancruddy@gmail.com>"
+  ],
+  "description": "Dependency free, single file JS plugin for cycling through DOM elements (primarily targeted to images)",
+  "main": "src/cycle.js",
+  "keywords": [
+    "image",
+    "cycle",
+    "slideshow",
+    "carousel",
+    "vanillajs"
+  ],
+  "license": "MIT",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ]
+}

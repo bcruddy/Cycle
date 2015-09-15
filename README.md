@@ -1,36 +1,48 @@
 ## Cycle
 
-Cycle is a vanilla javascript plugin intended to cycle through images but will cycle through any set of elements (parent element selector is passed into constructor while target children as passed as an option).
+Cycle is a vanilla javascript plugin intended to cycle through images but will cycle through any set of elements.
+
+Cycle injects it's own CSS at runtime, the whole thing is run and styled out of a single file.
 
 ### Usage
 
-If using more than one instance of Cycle, each requires a unique selector. If using two instances on a single page, they need to be instantiated twice, eg:
+If using more than one instance of Cycle, each requires a unique selector. If using two instances on a single page, they need to be instantiated individually.
 
 Selector defaults to `.cycle` if one is not given.
 
-Options are set via data-attributes.
+By default, Cycle runs automatically on page load. You can disable this by passing the option `autoRun: false` to the constructor.
+
+If `autoRun` is `false`, getting Cycle started might look something like this: 
+    `var cycle = new Cycle('.my-cycle', { autoRun: false })`
+    `cycle.style([arrayOfCustomRules]).init();`
+
+Options are set via an options object passed as a section parameter to the constructor or data-* attributes.
 
 See `example/index.html` for a usage example.
 
 ### Options
 
-Cycle's options are controlled via data attributes on your target element. Available options are:
+Cycle's options can be set by an options object, data-* attributes, or falling back to the defaults. Available options are:
 
-- `data-target`: elements targeted by Cycle (default: `li`)
+- `target` (`data-target`): elements targeted by Cycle (default: `li`)
 
-- `data-interval`: interval between changes in ms (default: `2500`)
+- `interval` (`data-interval`): interval between changes in ms (default: `2500`)
 
-- `data-width`: max width of the Cycle container (default: `300`)
+- `width` (`data-width`): max width of the Cycle container (default: `300`)
 
-- `data-speed`: speed of transition between elements (default: `1000`)
+- `speed` (`data-speed`): speed of transition between elements (default: `1000`)
 
-- `data-captionposition`: top or bottom of the cycle element (default: `bottom`)
+- `captionPosition` (`data-caption-position`): top or bottom of the cycle element (default: `bottom`)
 
-- `data-captioncolor`: caption color (default: `#333`)
+- `captionColor` (`data-caption-color`): caption color (default: `#333`)
 
-- `data-captionbg`: caption background color (default: `rgba(255, 255, 255, 0.75)`)
+- `captionBgColor` (`data-caption-bg`): caption background color (default: `rgba(255, 255, 255, 0.75)`)
 
 ### API
+
+`style()` style injects the Cycle styling. It accepts an array of custom CSS rules that are appended to the bottom of the stylesheet, overriding any default cycle styling
+
+`init()` starts to cycle infinite loop
 
 `.on(event, callback)` attach event listener to Cycle object.
 

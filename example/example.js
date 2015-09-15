@@ -5,7 +5,10 @@
 
 
 var example = (function () {
-    var cycle = new Cycle('.cycle');
+    var cycle = new Cycle('.cycle', {
+        captionPosition: 'bottom',
+        captionColor: '#FF0000'
+    });
 
     cycle.on('cycle:change', function (e) {
         var cycleObject, data;

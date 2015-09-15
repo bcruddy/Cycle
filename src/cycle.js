@@ -24,6 +24,7 @@ var cycle = (function () {
 
         getDefaultOptions: function (option) {
             var defaults = {
+                autoRun: true,
                 selector: '.cycle',
                 target: 'li',
                 interval: '2500',
@@ -68,27 +69,32 @@ var cycle = (function () {
 
 /**
  * @constructor {Cycle}
- * @param selector
+ * @param {String} selector
+ * @param {Object} options [set options via arg object, data-* attrs, or just use the defaults]
  * @returns {Cycle}
  */
-function Cycle (selector) {
+function Cycle (selector, options) {
+    if (!options) options = {};
 
     var defaults = cycle.getDefaultOptions();
 
-    this.selector = selector || defaults.selector;
-    this.target = cycle.getDataAttribute(selector, 'target') || defaults.target;
-    this.interval = cycle.getDataAttribute(selector, 'interval') || defaults.interval;
-    this.width = cycle.getDataAttribute(selector, 'width') || defaults.width;
-    this.speed = cycle.getDataAttribute(selector, 'speed') || defaults.speed;
+    this.autoRun = options.autoRun || defaults.autoRun;
 
-    this.captionPosition = cycle.getDataAttribute(selector, 'captionposition') || defaults.captionPosition;
-    this.captionColor = cycle.getDataAttribute(selector, 'captioncolor') || defaults.captionColor;
-    this.captionBgColor = cycle.getDataAttribute(selector, 'captionbg') || defaults.captionBgColor;
+    this.selector = selector || defaults.selector;
+    this.target = options.target || cycle.getDataAttribute(selector, 'target') || defaults.target;
+    this.width = options.width || cycle.getDataAttribute(selector, 'width') || defaults.width;
+    this.interval = options.interval || cycle.getDataAttribute(selector, 'interval') || defaults.interval;
+    this.speed = options.speed || cycle.getDataAttribute(selector, 'speed') || defaults.speed;
+
+    this.captionPosition = options.captionPosition || cycle.getDataAttribute(selector, 'captionPosition') || defaults.captionPosition;
+    this.captionColor = options.captionColor || cycle.getDataAttribute(selector, 'captionColor') || defaults.captionColor;
+    this.captionBgColor = options.captionBgColor || cycle.getDataAttribute(selector, 'captionBg') || defaults.captionBgColor;
 
     this.items = cycle.getChildItems(selector, this.target);
     this.captions = cycle.getChildItems(selector, '.cycle-caption');
 
-    this.style().init();
+    if (this.autoRun)
+        this.style().init();
 
     return this;
 }
@@ -110,9 +116,9 @@ Cycle.prototype.init = function () {
 
 /**
  * Inject CSS
- * @return {Cycle} [description]
+ * @return {Cycle} [generate a style sheet for this instance of cycle, based on options set by data-* attributes or defaults]
  */
-Cycle.prototype.style = function () {
+Cycle.prototype.style = function (customRules) {
     var styleSheet, rules;
 
     styleSheet = cycle.generateEmptyStyleSheet();
@@ -129,7 +135,7 @@ Cycle.prototype.style = function () {
         rules.push(this.selector + ' .cycle-caption { position: absolute; left: 0; right: 0; padding: 5px 10px; ' + this.captionPosition + ': 4px; background-color: ' + this.captionBgColor + '; color: ' + this.captionColor + ' }');
     }
 
-    rules.forEach(function (rule) {
+    rules.concat(customRules).forEach(function (rule) {
         styleSheet.insertRule(rule, 0);
     });
 
