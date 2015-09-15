@@ -13,8 +13,14 @@ Selector defaults to `.cycle` if one is not given.
 By default, Cycle runs automatically on page load. You can disable this by passing the option `autoRun: false` to the constructor.
 
 If `autoRun` is `false`, getting Cycle started might look something like this: 
-    `var cycle = new Cycle('.my-cycle', { autoRun: false })`
-    `cycle.style([arrayOfCustomRules]).init();`
+```
+var cycle = new Cycle('.my-cycle', {
+    autoRun: false,
+    captionColor: 'rgba(0, 0, 0, 0.75)',
+    speed: '1000'
+});
+cycle.style([arrayOfCustomRules]).init();
+```
 
 Options are set via an options object passed as a section parameter to the constructor or data-* attributes.
 
