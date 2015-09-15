@@ -12,6 +12,11 @@
 var cycle = (function () {
 
     return {
+        /**
+         * @param {String} selector
+         * @param {String} attribute
+         * @returns {String || Boolean}
+         */
         getDataAttribute: function (selector, attribute) {
             var target = document.querySelector(selector);
 
@@ -22,6 +27,10 @@ var cycle = (function () {
             return false;
         },
 
+        /**
+         * @param {String} option [if set, method only returns requested option]
+         * @returns {*}
+         */
         getDefaultOptions: function (option) {
             var defaults = {
                 autoRun: true,
@@ -38,23 +47,41 @@ var cycle = (function () {
             return !option ? defaults : defaults[option];
         },
 
+        /**
+         * @param {String} parentSelector
+         * @param {String} targetSelector
+         * @returns {NodeList}
+         */
         getChildItems: function (parentSelector, targetSelector) {
             var selector = [parentSelector, targetSelector].join(' ');
 
             return document.querySelectorAll(selector);
         },
 
+        /**
+         * @param {NodeList} elements
+         * @param {String} _class
+         * @void
+         */
         removeClassFromElements: function (elements, _class) {
             for (var i = 0; i < elements.length; i++) {
                 elements[i].classList.remove(_class);
             }
         },
 
+        /**
+         * @param {NodeList} items
+         * @param {Number} index
+         * @void
+         */
         makeNextItemActive: function (items, index) {
             index %= items.length;
             items[index].classList.add('active');
         },
 
+        /**
+         * @returns {*}
+         */
         generateEmptyStyleSheet: function () {
             var style = document.createElement('style');
 
@@ -66,6 +93,7 @@ var cycle = (function () {
     };
 
 })();
+
 
 /**
  * @constructor {Cycle}
@@ -99,75 +127,81 @@ function Cycle (selector, options) {
     return this;
 }
 
-/**
- * Start Cycle, infinite loop
- * @void
- */
-Cycle.prototype.init = function () {
-    var nextIndex = 1;
+Cycle.prototype = {
 
-    setInterval((function () {
-        cycle.removeClassFromElements(this.items, 'active');
-        cycle.makeNextItemActive(this.items, nextIndex++);
+    /**
+     * Cycle infinite loop
+     * @void
+     */
+    init: function () {
+        var nextIndex = 1;
 
-        this.fire('cycle:change', { nextIndex: nextIndex });
-    }).bind(this), this.interval);
-};
+        setInterval((function () {
+            cycle.removeClassFromElements(this.items, 'active');
+            cycle.makeNextItemActive(this.items, nextIndex++);
 
-/**
- * Inject CSS
- * @return {Cycle} [generate a style sheet for this instance of cycle, based on options set by data-* attributes or defaults]
- */
-Cycle.prototype.style = function (customRules) {
-    var styleSheet, rules;
+            this.fire('cycle:change', { nextIndex: nextIndex });
+        }).bind(this), this.interval);
+    },
 
-    styleSheet = cycle.generateEmptyStyleSheet();
+    /**
+     * @param {Array} [customRules]
+     * @returns {Cycle}
+     */
+    style: function (customRules) {
+        var styleSheet, rules;
 
-    rules = [
-        this.selector + ' { max-width: 100%; position: relative; width: ' + this.width + 'px; list-style: none; padding: 0; }',
-        this.selector + ' > ' + this.target + ' { position: absolute; top: 0; left: 0; bottom: 0; right: 0; z-index: 0; opacity: 0; transition: opacity 300ms; }',
-        this.selector + ' > ' + this.target + ':first-child { position: static; }',
-        this.selector + ' > .active { z-index: 1; opacity: 1; transition: opacity ' + this.speed + 'ms; }',
-        this.selector + ' img { width: 100%; box-shadow: 3px 3px 12px rgba(0, 0, 0, 0.4); }'
-    ];
+        styleSheet = cycle.generateEmptyStyleSheet();
 
-    if (this.captions.length > 0) {
-        rules.push(this.selector + ' .cycle-caption { position: absolute; left: 0; right: 0; padding: 5px 10px; ' + this.captionPosition + ': 4px; background-color: ' + this.captionBgColor + '; color: ' + this.captionColor + ' }');
+        rules = [
+            this.selector + ' { max-width: 100%; position: relative; width: ' + this.width + 'px; list-style: none; padding: 0; }',
+            this.selector + ' > ' + this.target + ' { position: absolute; top: 0; left: 0; bottom: 0; right: 0; z-index: 0; opacity: 0; transition: opacity 300ms; }',
+            this.selector + ' > ' + this.target + ':first-child { position: static; }',
+            this.selector + ' > .active { z-index: 1; opacity: 1; transition: opacity ' + this.speed + 'ms; }',
+            this.selector + ' img { width: 100%; box-shadow: 3px 3px 12px rgba(0, 0, 0, 0.4); }'
+        ];
+
+        if (this.captions.length > 0) {
+            rules.push(this.selector + ' .cycle-caption { position: absolute; left: 0; right: 0; padding: 5px 10px; ' + this.captionPosition + ': 4px; background-color: ' + this.captionBgColor + '; color: ' + this.captionColor + ' }');
+        }
+
+        if (!!customRules) {
+            rules = customRules.concat(customRules);
+        }
+
+        rules.forEach(function (rule) {
+            styleSheet.insertRule(rule, 0);
+        });
+
+        return this;
+    },
+
+    /**
+     * @param {String} name
+     * @param {*} data
+     * @returns {Cycle}
+     */
+    fire: function (name, data) {
+        var event = new CustomEvent('cycle:' + name, {
+            detail: {
+                settings: this,
+                data: data
+            }
+        });
+        document.dispatchEvent(event);
+
+        return this;
+    },
+
+    /**
+     * @param {String} event
+     * @param {Function} callback
+     * @returns {Cycle}
+     */
+    on: function (event, callback) {
+        document.addEventListener(event, callback, false);
+
+        return this;
     }
 
-    rules.concat(customRules).forEach(function (rule) {
-        styleSheet.insertRule(rule, 0);
-    });
-
-    return this;
-};
-
-/**
- * Fire events
- * @param  {String} name  [description]
- * @param  {*} data       [description]
- * @return {Cycle}        [description]
- */
-Cycle.prototype.fire = function (name, data) {
-    var event = new CustomEvent(name, {
-        detail: { 
-            settings: this,
-            data: data
-        }
-    });
-    document.dispatchEvent(event);
-
-    return this;
-};
-
-/**
- * Event listener
- * @param  {String}   event    [event name]
- * @param  {Function} callback [fn]
- * @return {Cycle}             [description]
- */
-Cycle.prototype.on = function (event, callback) {
-    document.addEventListener(event, callback, false);
-
-    return this;
 };
