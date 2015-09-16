@@ -28,7 +28,7 @@ var cycle = (function () {
         },
 
         /**
-         * @param {String} option [if set, method only returns requested option]
+         * @param {String} option - if set, method only returns requested option
          * @returns {*}
          */
         getDefaultOptions: function (option) {
