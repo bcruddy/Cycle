@@ -3,44 +3,54 @@
 <head lang="en">
     <meta charset="UTF-8">
     <title>Image Cycle Example</title>
+    <link rel="stylesheet" href="bootstrap.min.css" />
+    <link rel="stylesheet" href="bootstrap-theme.css />"
     <link rel="stylesheet" href="example.css" />
 </head>
 <body>
-    <div class="wrapper">
-        <main style="float: left; max-width: 60%; padding: 0 30px;">
-            <h2>Cycle Config</h2>
-            <strong>Cycle's options are controlled via data attributes on your target element. Available options are:</strong>
+    <div class="jumbotron">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-12">
+                    <h2>Cycle</h2>
+                    <p class="text-primary">A dependency free javascript plugin for cycling through DOM elements.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="container">
+        <div class="row">
+            <div class="col-md-8">
+                <h3>Config</h3>
+                <strong>Options can be passed into the Cycle object's constructor or applied via data attributes.</strong>
 
-            <ul>
-                <li><code>data-target</code> elements targeted by Cycle (default: <code>li</code>)</li>
-                <li><code>data-interval</code> interval between changes in ms (default: <code>2500</code>)</li>
-                <li><code>data-width</code> max width of the Cycle container (default: <code>300</code>)</li>
-                <li><code>data-speed</code> speed of transition between elements (default: <code>1000</code>)</li>
-            </ul>
-        </main>
-
-        <aside style="float: left;">
-            <h2>Cycle Demo</h2>
-            <ul class="cycle" data-target="li" data-interval="2500" data-width="300" data-speed="1000">
-                <li class="active" >
-                    <img src="images/ex1.jpg"/>
-                    <a href="#" class="cycle-caption">This is a caption</a>
-                </li>
-                <li>
-                    <img src="images/ex2.jpg" />
-                    <a href="#" class="cycle-caption">Oh wow more caption!</a>
-                </li>
-                <li>
-                    <img src="images/ex3.jpg" />
-                    <a href="#" class="cycle-caption">These are some FANCY captions</a>
-                </li>
-            </ul>
-        </aside>
-
-        <div style="clear:both; height: 0"></div>
+                <ul>
+                    <li><code>data-target</code> elements targeted by Cycle (default: <code>li</code>)</li>
+                    <li><code>data-interval</code> interval between changes in ms (default: <code>2500</code>)</li>
+                    <li><code>data-width</code> max width of the Cycle container (default: <code>300</code>)</li>
+                    <li><code>data-speed</code> speed of transition between elements (default: <code>1000</code>)</li>
+                </ul>
+            </div>
+            <div class="col-md-4">
+                <ul class="cycle" data-target="li" data-interval="2500" data-width="300" data-speed="1000">
+                    <li class="active" >
+                        <img src="images/ex1.jpg"/>
+                        <a href="#" class="cycle-caption">This is a caption</a>
+                    </li>
+                    <li>
+                        <img src="images/ex2.jpg" />
+                        <a href="#" class="cycle-caption">Oh wow more caption!</a>
+                    </li>
+                    <li>
+                        <img src="images/ex3.jpg" />
+                        <a href="#" class="cycle-caption">These are some FANCY captions</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
     </div>
 
-    <footer>
+    <footer class="container text-center">
         <a href="https://github.com/bcruddy/Cycle">Source</a>
     </footer>
 

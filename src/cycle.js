@@ -9,9 +9,88 @@
 
 'use strict';
 
-var cycle = (function () {
+var utils = (function () {
 
     return {
+        /**
+         * @param {String} option [if set, method only returns requested option]
+         * @returns {*}
+         */
+        getDefaultOptions: function (option) {
+            var defaults = {
+                autoRun: true,
+                pauseOnHover: true,
+                selector: '.cycle',
+                target: 'li',
+                interval: '2500',
+                width: '300',
+                speed: '1000',
+                captionPosition: 'bottom',
+                captionColor: '#333',
+                captionBgColor: 'rgba(255, 255, 255, 0.75)'
+            };
+
+            return !option ? defaults : defaults[option];
+        },
+
+        /**
+         *
+         * @param selector
+         * @param options
+         * @returns {{autoRun: (boolean|*), selector: (*|string), target: (string|*|string|EventTarget|Node|String), width: (string|*|Number|number|string|String), interval: (string|*|String|Boolean), captionPosition: (string|*|String|Boolean), captionColor: (string|*|string|String|Boolean), captionBgColor: (string|*|String|Boolean)}}
+         */
+        initSettings: function (selector, options) {
+            if (!options) options = {};
+
+            var defaults = utils.getDefaultOptions();
+
+            return {
+                autoRun: options.autoRun || defaults.autoRun,
+                pauseOnHover: options.pauseOnHover || defaults.pauseOnHover,
+                selector: selector || defaults.selector,
+                target: options.target || utils.getDataAttribute(selector, 'target') || defaults.target,
+                width: options.width || utils.getDataAttribute(selector, 'width') || defaults.width,
+                interval: options.interval || utils.getDataAttribute(selector, 'interval') || defaults.interval,
+                captionPosition: options.captionPosition || utils.getDataAttribute(selector, 'captionPosition') || defaults.captionPosition,
+                captionColor: options.captionColor || utils.getDataAttribute(selector, 'captionColor') || defaults.captionColor,
+                captionBgColor: options.captionBgColor || utils.getDataAttribute(selector, 'captionBg') || defaults.captionBgColor
+            };
+
+        },
+
+        /**
+         * @param {NodeList} items
+         * @param {Number} index
+         * @void
+         */
+        activateItem: function (items, index) {
+            index %= items.length;
+            items[index].classList.add('active');
+        },
+
+        /**
+         * @param {NodeList} elements
+         * @param {String} _class
+         * @void
+         */
+        removeClassFromElements: function (elements, _class) {
+            for (var i = 0; i < elements.length; i++) {
+                elements[i].classList.remove(_class);
+            }
+        },
+
+        /**
+         * @returns {*}
+         */
+        generateEmptyStyleSheet: function () {
+            var style = document.createElement('style');
+
+            style.appendChild(document.createTextNode('')); // webkit hack
+            document.head.appendChild(style);
+
+            return style.sheet;
+        },
+
         /**
          * @param {String} selector
          * @param {String} attribute
@@ -27,69 +106,14 @@ var cycle = (function () {
             return false;
         },
 
-        /**
-         * @param {String} option [if set, method only returns requested option]
-         * @returns {*}
-         */
-        getDefaultOptions: function (option) {
-            var defaults = {
-                autoRun: true,
-                selector: '.cycle',
-                target: 'li',
-                interval: '2500',
-                width: '300',
-                speed: '1000',
-                captionPosition: 'bottom',
-                captionColor: '#333',
-                captionBgColor: 'rgba(255, 255, 255, 0.75)'
-            };
-
-            return !option ? defaults : defaults[option];
-        },
-
-        /**
-         * @param {String} parentSelector
-         * @param {String} targetSelector
-         * @returns {NodeList}
-         */
-        getChildItems: function (parentSelector, targetSelector) {
-            var selector = [parentSelector, targetSelector].join(' ');
-
-            return document.querySelectorAll(selector);
-        },
-
-        /**
-         * @param {NodeList} elements
-         * @param {String} _class
-         * @void
-         */
-        removeClassFromElements: function (elements, _class) {
-            for (var i = 0; i < elements.length; i++) {
-                elements[i].classList.remove(_class);
+        toArray: function (arrayLike) {
+            var result = [];
+            for (var i = 0; i < arrayLike.length; i++) {
+                result.push(arrayLike[i]);
             }
+
+            return result;
         },
-
-        /**
-         * @param {NodeList} items
-         * @param {Number} index
-         * @void
-         */
-        makeNextItemActive: function (items, index) {
-            index %= items.length;
-            items[index].classList.add('active');
-        },
-
-        /**
-         * @returns {*}
-         */
-        generateEmptyStyleSheet: function () {
-            var style = document.createElement('style');
-
-            style.appendChild(document.createTextNode('')); // webkit hack
-            document.head.appendChild(style);
-
-            return style.sheet;
-        }
     };
 
 })();
@@ -102,27 +126,18 @@ var cycle = (function () {
  * @returns {Cycle}
  */
 function Cycle (selector, options) {
-    if (!options) options = {};
 
-    var defaults = cycle.getDefaultOptions();
+    this.settings = utils.initSettings(selector, options);
 
-    this.autoRun = options.autoRun || defaults.autoRun;
+    this.element = document.querySelector(this.settings.selector);
+    this.items = utils.toArray(this.element.querySelectorAll(this.settings.target));
+    this.captions = utils.toArray(this.element.querySelectorAll('.cycle-caption'));
 
-    this.selector = selector || defaults.selector;
-    this.target = options.target || cycle.getDataAttribute(selector, 'target') || defaults.target;
-    this.width = options.width || cycle.getDataAttribute(selector, 'width') || defaults.width;
-    this.interval = options.interval || cycle.getDataAttribute(selector, 'interval') || defaults.interval;
-    this.speed = options.speed || cycle.getDataAttribute(selector, 'speed') || defaults.speed;
+    this.active = { index: 0 };
 
-    this.captionPosition = options.captionPosition || cycle.getDataAttribute(selector, 'captionPosition') || defaults.captionPosition;
-    this.captionColor = options.captionColor || cycle.getDataAttribute(selector, 'captionColor') || defaults.captionColor;
-    this.captionBgColor = options.captionBgColor || cycle.getDataAttribute(selector, 'captionBg') || defaults.captionBgColor;
-
-    this.items = cycle.getChildItems(selector, this.target);
-    this.captions = cycle.getChildItems(selector, '.cycle-caption');
-
-    if (this.autoRun)
-        this.style().init();
+    if (this.settings.autoRun) {
+        this.style().run();
+    }
 
     return this;
 }
@@ -130,18 +145,74 @@ function Cycle (selector, options) {
 Cycle.prototype = {
 
     /**
-     * Cycle infinite loop
+     * Begins the cycle infinite loop
      * @void
      */
-    init: function () {
-        var nextIndex = 1;
+    run: function () {
+        this.fire('init', this);
+
+        this.continue = true;
+        this.handleHover();
 
         setInterval((function () {
-            cycle.removeClassFromElements(this.items, 'active');
-            cycle.makeNextItemActive(this.items, nextIndex++);
+            if (this.continue) {
+                this.next();
+            }
+        }).bind(this), this.settings.interval);
+    },
 
-            this.fire('cycle:change', { nextIndex: nextIndex });
-        }).bind(this), this.interval);
+    /**
+     * @returns {Cycle}
+     */
+    pause: function () {
+        this.continue = false;
+        this.fire('pause', this);
+
+        return this;
+    },
+
+    /**
+     * @returns {Cycle}
+     */
+    resume: function () {
+        this.continue = true;
+        this.fire('resume', this);
+
+        return this;
+    },
+
+    /**
+     * Render the next item in Cycle.items
+     * @returns {Cycle}
+     */
+    next: function () {
+        utils.removeClassFromElements(this.items, 'active');
+
+        this.active.index++;
+        this.active.index %= this.items.length;
+        utils.activateItem(this.items, this.active.index);
+
+        this.fire('next', this);
+
+        return this;
+    },
+
+    /**
+     * Render the previous item in Cycle.items
+     * @returns {Cycle}
+     */
+    previous: function () {
+        utils.removeClassFromElements(this.items, 'active');
+
+        this.active.index--;
+        if (this.active.index < 0)
+            this.active.index = this.items.length;
+
+        utils.activateItem(this.items, this.active.index);
+
+        this.fire('previous', this);
+
+        return this;
     },
 
     /**
@@ -149,27 +220,22 @@ Cycle.prototype = {
      * @returns {Cycle}
      */
     style: function (customRules) {
-        var styleSheet, rules;
+        var styleSheet = utils.generateEmptyStyleSheet();
 
-        styleSheet = cycle.generateEmptyStyleSheet();
-
-        rules = [
-            this.selector + ' { max-width: 100%; position: relative; width: ' + this.width + 'px; list-style: none; padding: 0; }',
-            this.selector + ' > ' + this.target + ' { position: absolute; top: 0; left: 0; bottom: 0; right: 0; z-index: 0; opacity: 0; transition: opacity 300ms; }',
-            this.selector + ' > ' + this.target + ':first-child { position: static; }',
-            this.selector + ' > .active { z-index: 1; opacity: 1; transition: opacity ' + this.speed + 'ms; }',
-            this.selector + ' img { width: 100%; box-shadow: 3px 3px 12px rgba(0, 0, 0, 0.4); }'
+        var rules = [
+            this.settings.selector + ' { max-width: 100%; position: relative; width: ' + this.settings.width + 'px; list-style: none; padding: 0; }',
+            this.settings.selector + ' > ' + this.settings.target + ' { position: absolute; top: 0; left: 0; bottom: 0; right: 0; z-index: 0; opacity: 0; transition: opacity 300ms; }',
+            this.settings.selector + ' > ' + this.settings.target + ':first-child { position: static; }',
+            this.settings.selector + ' > .active { z-index: 1; opacity: 1; transition: opacity ' + this.settings.speed + 'ms; }',
+            this.settings.selector + ' img { width: 100%; box-shadow: 3px 3px 12px rgba(0, 0, 0, 0.4); }'
         ];
 
         if (this.captions.length > 0) {
-            rules.push(this.selector + ' .cycle-caption { position: absolute; left: 0; right: 0; padding: 5px 10px; ' + this.captionPosition + ': 4px; background-color: ' + this.captionBgColor + '; color: ' + this.captionColor + ' }');
+            rules.push(this.settings.selector + ' .cycle-caption { position: absolute; left: 0; right: 0; padding: 5px 10px; ' + this.settings.captionPosition + ': 0; background-color: ' + this.settings.captionBgColor + '; color: ' + this.settings.captionColor + ' }');
         }
 
-        if (!!customRules) {
-            rules = customRules.concat(customRules);
-        }
 
-        rules.forEach(function (rule) {
+        rules.concat(customRules || []).forEach(function (rule) {
             styleSheet.insertRule(rule, 0);
         });
 
@@ -188,20 +254,46 @@ Cycle.prototype = {
                 data: data
             }
         });
-        document.dispatchEvent(event);
+
+        this.element.dispatchEvent(event);
 
         return this;
     },
 
     /**
-     * @param {String} event
+     * @param {String} eventType
      * @param {Function} callback
      * @returns {Cycle}
      */
-    on: function (event, callback) {
-        document.addEventListener(event, callback, false);
+    on: function (eventType, callback) {
+
+        this.element.addEventListener(eventType, function (event) {
+            var instanceData = event.detail.data;
+            callback(instanceData, event);
+        }, false);
+
+        return this;
+    },
+
+    /**
+     * Event listener for hover events on the Cycle object
+     * @returns {Cycle}
+     */
+    handleHover: function () {
+        this.on('mouseenter', (function () {
+            if (this.settings.pauseOnHover) {
+                this.pause();
+            }
+        }).bind(this));
+
+        this.on('mouseout', (function () {
+            if (this.settings.pauseOnHover) {
+                this.resume();
+            }
+        }).bind(this));
 
         return this;
     }
+
 
 };

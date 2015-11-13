@@ -48,15 +48,31 @@ Cycle's options can be set by an options object, data-* attributes, or falling b
 
 `style()` style injects the Cycle styling. It accepts an array of custom CSS rules that are appended to the bottom of the stylesheet, overriding any default cycle styling
 
-`init()` starts to cycle infinite loop
+`run()` starts to cycle infinite loop
 
-`.on(event, callback)` attach event listener to Cycle object.
+`next()` render the next slide
+
+`previous()` render the previous slide
+
+`pause()` pause a Cycle instance
+
+`resume()` resume a paused Cycle instance
+
+`.on(event, callback)` attach event listener to Cycle object. Callback should accept two arguments, the first is the Cycle instance itself while the second is the actual event object.
 
 ### Events
 
 Each cycle event object contains a `detail` parameter containing that instance's settings and a `data` object.
 
-`cycle:change` fires each time a new image is rendered
+`cycle:run` fires whenever cycle starts for the first time
+
+`cycle:next` fires whenever the next image is rendered
+
+`cycle:previous` fires whenever the previous image is rendered
+
+`cycle:pause` fires when cycle is paused
+
+`cycle:resume` fires when cycle resumes
 
 ### Example
 

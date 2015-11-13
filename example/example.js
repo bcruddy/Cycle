@@ -5,20 +5,32 @@
 
 
 var example = (function () {
+
     var cycle = new Cycle('.cycle', {
         captionPosition: 'bottom',
         captionColor: '#FF0000'
     });
 
-    cycle.on('cycle:change', function (e) {
-        var cycleObject, data;
-
-        cycleObject = e.detail.settings;
-        data = e.detail.data;
-
-        console.log(cycleObject, data);
-        console.count();
+    cycle.on('cycle:init', function (instance) {
+        console.log('Cycle started');
     });
+
+    cycle.on('cycle:next', function (instance, event) {
+        console.log('next!');
+    });
+
+    cycle.on('cycle:previous', function (instance, event) {
+        console.log('previous!');
+    });
+
+    cycle.on('cycle:pause', function (instance, event) {
+        console.log('stopped!');
+    });
+
+    cycle.on('cycle:resume', function (instance, event) {
+        console.log('resumed!');
+    });
+
 
     return {
         info: 'cycle started',
