@@ -12,8 +12,10 @@
 var utils = (function () {
 
     return {
+
         /**
-         * @param {String} option [if set, method only returns requested option]
+         *
+         * @param {String} option
          * @returns {*}
          */
         getDefaultOptions: function (option) {
