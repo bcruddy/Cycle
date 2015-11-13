@@ -13,14 +13,14 @@ Selector defaults to `.cycle` if one is not given.
 By default, Cycle runs automatically on page load. You can disable this by passing the option `autoRun: false` to the constructor.
 
 If `autoRun` is `false`, getting Cycle started might look something like this: 
-```
-var cycle = new Cycle('.my-cycle', {
-    autoRun: false,
-    captionColor: 'rgba(0, 0, 0, 0.75)',
-    speed: '1000'
-});
-cycle.style([arrayOfCustomRules]).init();
-```
+
+    var cycle = new Cycle('.my-cycle', {
+        autoRun: false,
+        captionColor: 'rgba(0, 0, 0, 0.75)',
+        speed: '1000'
+    });
+    cycle.style([arrayOfCustomRules]).run();
+
 
 Options are set via an options object passed as a section parameter to the constructor or data-* attributes.
 
@@ -30,22 +30,36 @@ See `example/index.html` for a usage example.
 
 Cycle's options can be set by an options object, data-* attributes, or falling back to the defaults. Available options are:
 
-- `target` (`data-target`): elements targeted by Cycle (default: `li`)
+`target` (`data-target`): elements targeted by Cycle (default: `li`)
 
-- `interval` (`data-interval`): interval between changes in ms (default: `2500`)
+`interval` (`data-interval`): interval between changes in ms (default: `2500`)
 
-- `width` (`data-width`): max width of the Cycle container (default: `300`)
+`width` (`data-width`): max width of the Cycle container (default: `300`)
 
-- `speed` (`data-speed`): speed of transition between elements (default: `1000`)
+`speed` (`data-speed`): speed of transition between elements (default: `1000`)
 
-- `captionPosition` (`data-caption-position`): top or bottom of the cycle element (default: `bottom`)
+`captionPosition` (`data-caption-position`): top or bottom of the cycle element (default: `bottom`)
 
-- `captionColor` (`data-caption-color`): caption color (default: `#333`)
+`captionColor` (`data-caption-color`): caption color (default: `#333`)
 
-- `captionBgColor` (`data-caption-bg`): caption background color (default: `rgba(255, 255, 255, 0.75)`)
+`captionBgColor` (`data-caption-bg`): caption background color (default: `rgba(255, 255, 255, 0.75)`),
+
+`pauseOnHover` (`data-pause-on-hover`): Pause cycle when hovering `cycle.element`, resume when the mouse leaves `cycle.element`
 
 ### API
 
+#### Properties
+
+`element` An HTMLElement, this is the Cycle parent element. Use this for attaching non-cycle events.
+
+`items` An Array of HTMLElements containing the cycle `target`s
+
+`captions` An array of HTMLElements containing the captions
+
+`active` An object initially containing the active index 
+
+
+#### Methods
 `style()` style injects the Cycle styling. It accepts an array of custom CSS rules that are appended to the bottom of the stylesheet, overriding any default cycle styling
 
 `run()` starts to cycle infinite loop
@@ -58,11 +72,11 @@ Cycle's options can be set by an options object, data-* attributes, or falling b
 
 `resume()` resume a paused Cycle instance
 
-`.on(event, callback)` attach event listener to Cycle object. Callback should accept two arguments, the first is the Cycle instance itself while the second is the actual event object.
+`on(event, callback)` attach event listener to Cycle object. Callback should accept two arguments, the first is the Cycle instance itself while the second is the actual event object.
 
 ### Events
 
-Each cycle event object contains a `detail` parameter containing that instance's settings and a `data` object.
+Each Cycle event emits the cycle instance as the callback's first parameter with the actual event itself as the second.
 
 `cycle:run` fires whenever cycle starts for the first time
 
@@ -74,9 +88,30 @@ Each cycle event object contains a `detail` parameter containing that instance's
 
 `cycle:resume` fires when cycle resumes
 
-### Example
+### Examples
 
 Clone/fork the repo and you the example directory is good to go.
+
+
+Using Cycle's events and API together:
+
+    var cycle = new Cycle();
+    
+    cycle.on('cycle:run', function (instance, event) {
+        instance.pause();
+    });
+
+
+Or, add your own events:
+
+
+
+    var cycle = new Cycle();
+    
+    cycle.element.addEventListener('mouseenter', function () {
+        cycle.pause();
+    });
+
 
 
 ### License
