@@ -138,6 +138,12 @@ var utils = (function () {
  * @constructor
  * @param {String} selector
  * @param {Object} options - set options via arg object, data-* attrs, or just use the defaults
+ * @property {Object} settings - object containing a Cycle instance's settings
+ * @property {HTMLElement} element - parent element, `fire` and `on` both reference this element
+ * @property {NodeList} items - collection containing items that cycle loops through
+ * @property {NodeList} captions - collection containing captions
+ * @property {Object} active - object containing the `index` of the current active item
+ * @property {Boolean} continue - determines whether or not Cycle's `run` loop calls the `next` method
  * @returns {Cycle}
  */
 function Cycle(selector, options) {
@@ -148,6 +154,7 @@ function Cycle(selector, options) {
     this.captions = utils.toArray(this.element.querySelectorAll('.cycle-caption'));
 
     this.active = { index: 0 };
+    this.continue = false;
 
     if (this.settings.autoRun) {
         this.style().run();
