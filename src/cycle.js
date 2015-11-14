@@ -148,10 +148,11 @@ Cycle.prototype = {
 
     /**
      * Begins the cycle infinite loop
+     * @chainable
      * @void
      */
     run: function () {
-        this.fire('init', this);
+        this.fire('run', this);
 
         this.continue = true;
         this.handleHover();
@@ -161,9 +162,33 @@ Cycle.prototype = {
                 this.next();
             }
         }).bind(this), this.settings.interval);
+
+        return this;
     },
 
     /**
+     *
+     * @param {Number} timeout
+     * @param {Function} callback
+     * @chainable
+     * @returns {Cycle}
+     */
+    delay: function (timeout, callback) {
+        this.fire('delay', { instance: this, timeout: timeout });
+
+        this.pause();
+        setTimeout((function () {
+            if (callback && typeof callback === 'function') {
+                callback();
+            }
+            this.resume();
+        }).bind(this), timeout);
+
+        return this;
+    },
+
+    /**
+     * @chainable
      * @returns {Cycle}
      */
     pause: function () {
@@ -174,6 +199,7 @@ Cycle.prototype = {
     },
 
     /**
+     * @chainable
      * @returns {Cycle}
      */
     resume: function () {
@@ -185,6 +211,7 @@ Cycle.prototype = {
 
     /**
      * Render the next item in Cycle.items
+     * @chainable
      * @returns {Cycle}
      */
     next: function () {
@@ -201,6 +228,7 @@ Cycle.prototype = {
 
     /**
      * Render the previous item in Cycle.items
+     * @chainable
      * @returns {Cycle}
      */
     previous: function () {
@@ -218,7 +246,8 @@ Cycle.prototype = {
     },
 
     /**
-     * @param {Array} [customRules]
+     * @param {Array} customRules
+     * @chainable
      * @returns {Cycle}
      */
     style: function (customRules) {
@@ -247,6 +276,7 @@ Cycle.prototype = {
     /**
      * @param {String} name
      * @param {*} data
+     * @chainable
      * @returns {Cycle}
      */
     fire: function (name, data) {
@@ -265,6 +295,7 @@ Cycle.prototype = {
     /**
      * @param {String} eventType
      * @param {Function} callback
+     * @chainable
      * @returns {Cycle}
      */
     on: function (eventType, callback) {
@@ -279,6 +310,7 @@ Cycle.prototype = {
 
     /**
      * Event listener for hover events on the Cycle object
+     * @chainable
      * @returns {Cycle}
      */
     handleHover: function () {

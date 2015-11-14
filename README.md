@@ -60,9 +60,11 @@ Cycle's options can be set by an options object, data-* attributes, or falling b
 
 
 #### Methods
-`style()` style injects the Cycle styling. It accepts an array of custom CSS rules that are appended to the bottom of the stylesheet, overriding any default cycle styling
+`style(customRules)` Accepts Array `customRules`, injects the Cycle styling. It accepts an array of custom CSS rules that are appended to the bottom of the stylesheet, overriding any default cycle styling
 
 `run()` starts to cycle infinite loop
+
+`delay(timeout, callback)` Accepts Number `timeout`  and Function `callback`. Pauses cycle, executes callback and resumes cycle after timeout.
 
 `next()` render the next slide
 
@@ -102,9 +104,7 @@ Using Cycle's events and API together:
     });
 
 
-Or, add your own events:
-
-
+Or, listen for other events:
 
     var cycle = new Cycle();
     

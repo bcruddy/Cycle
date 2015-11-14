@@ -8,11 +8,16 @@ var example = (function () {
 
     var cycle = new Cycle('.cycle', {
         captionPosition: 'bottom',
-        captionColor: '#FF0000'
+        captionColor: '#FF0000',
+        autoRun: false
     });
 
-    cycle.on('cycle:init', function (instance) {
+    cycle.on('cycle:run', function (instance) {
         console.log('Cycle started');
+    });
+
+    cycle.on('delay', function (options) {
+       console.log('delay!', options.instance, options.timeout) ;
     });
 
     cycle.on('cycle:next', function (instance, event) {
@@ -38,6 +43,8 @@ var example = (function () {
     };
 
 })();
+
+example.cycle.run().delay(5000);
 console.log('----- CYCLE INFO -----');
 console.log(example.info, example.cycle);
 console.log('----- START CYCLE -----');
