@@ -35,6 +35,17 @@
 <a name="Cycle"></a>
 ## Cycle
 **Kind**: global class  
+**Properties**
+
+| Name | Type | Description |
+| --- | --- | --- |
+| settings | <code>Object</code> | object containing a Cycle instance's settings |
+| element | <code>HTMLElement</code> | parent element, `fire` and `on` both reference this element |
+| items | <code>NodeList</code> | collection containing items that cycle loops through |
+| captions | <code>NodeList</code> | collection containing captions |
+| active | <code>Object</code> | object containing the `index` of the current active item |
+| continue | <code>Boolean</code> | determines whether or not Cycle's `run` loop calls the `next` method |
+
 
 * [Cycle](#Cycle)
   * [new Cycle(selector, options)](#new_Cycle_new)
