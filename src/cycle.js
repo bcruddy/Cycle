@@ -14,7 +14,6 @@ var utils = (function () {
     return {
 
         /**
-         *
          * @param {String} option
          * @returns {*}
          */
@@ -36,7 +35,6 @@ var utils = (function () {
         },
 
         /**
-         *
          * @param selector
          * @param options
          * @returns {{autoRun: (boolean|*), selector: (*|string), target: (string|*|string|EventTarget|Node|String), width: (string|*|Number|number|string|String), interval: (string|*|String|Boolean), captionPosition: (string|*|String|Boolean), captionColor: (string|*|string|String|Boolean), captionBgColor: (string|*|String|Boolean)}}
@@ -115,7 +113,7 @@ var utils = (function () {
             }
 
             return result;
-        },
+        }
     };
 
 })();
@@ -175,8 +173,8 @@ Cycle.prototype = {
      */
     delay: function (timeout, callback) {
         this.fire('delay', { instance: this, timeout: timeout });
-
         this.pause();
+
         setTimeout((function () {
             if (callback && typeof callback === 'function') {
                 callback();
@@ -236,7 +234,7 @@ Cycle.prototype = {
 
         this.active.index--;
         if (this.active.index < 0)
-            this.active.index = this.items.length;
+            this.active.index = this.items.length - 1;
 
         utils.activateItem(this.items, this.active.index);
 
