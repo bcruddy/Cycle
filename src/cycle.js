@@ -9,12 +9,17 @@
 
 'use strict';
 
+/**
+ *
+ * @type {{getDefaultOptions, initSettings, activateItem, removeClassFromElements, generateEmptyStyleSheet, getDataAttribute, toArray}}
+ */
 var utils = (function () {
 
     return {
 
         /**
-         * @param {String} option
+         * Get Cycle's default settings
+         * @param {String} [option] - Retrieve a specific Cycle option
          * @returns {*}
          */
         getDefaultOptions: function (option) {
@@ -35,9 +40,10 @@ var utils = (function () {
         },
 
         /**
-         * @param selector
-         * @param options
-         * @returns {{autoRun: (boolean|*), selector: (*|string), target: (string|*|string|EventTarget|Node|String), width: (string|*|Number|number|string|String), interval: (string|*|String|Boolean), captionPosition: (string|*|String|Boolean), captionColor: (string|*|string|String|Boolean), captionBgColor: (string|*|String|Boolean)}}
+         * Get a Cycle instance's settings. Priority level: options object passed to constructor -> data-* attributes -> defaults
+         * @param selector - CSS selector to get `data-*` attributes from the `Cycle.element`
+         * @param [options] - An object containing Cycle settings
+         * @returns {*}
          */
         initSettings: function (selector, options) {
             if (!options) options = {};
@@ -59,8 +65,9 @@ var utils = (function () {
         },
 
         /**
-         * @param {NodeList} items
-         * @param {Number} index
+         * Assigns `active` class to item
+         * @param {NodeList} items - Collection of Cycle items
+         * @param {Number} index - Index to select item from collection
          * @void
          */
         activateItem: function (items, index) {
@@ -69,8 +76,9 @@ var utils = (function () {
         },
 
         /**
-         * @param {NodeList} elements
-         * @param {String} _class
+         * Remove `active` class from all cycle items
+         * @param {NodeList} elements - Collection of DOMElements
+         * @param {String} _class - Class to assign to `elements`
          * @void
          */
         removeClassFromElements: function (elements, _class) {
@@ -80,6 +88,7 @@ var utils = (function () {
         },
 
         /**
+         * Generates an empty stylesheet and appends it to the document `<head>`
          * @returns {*}
          */
         generateEmptyStyleSheet: function () {
@@ -92,9 +101,10 @@ var utils = (function () {
         },
 
         /**
-         * @param {String} selector
-         * @param {String} attribute
-         * @returns {String || Boolean}
+         * Gets a DOM element based on the `selector` and returns the `data-*` attribute or an empty string
+         * @param {String} selector - CSS selector to get `data-*` attributes from the `Cycle.element`
+         * @param {String} attribute - `data-*` attribute name to retrieve
+         * @returns {String}
          */
         getDataAttribute: function (selector, attribute) {
             var target = document.querySelector(selector);
@@ -103,9 +113,14 @@ var utils = (function () {
                 return target.dataset[attribute]
             }
 
-            return false;
+            return '';
         },
 
+        /**
+         * Takes an array like object and returns the object in Array form
+         * @param arrayLike - An array like object (IE `arguments`)
+         * @returns {Array}
+         */
         toArray: function (arrayLike) {
             var result = [];
             for (var i = 0; i < arrayLike.length; i++) {
@@ -120,13 +135,12 @@ var utils = (function () {
 
 
 /**
- * @constructor {Cycle}
+ * @constructor
  * @param {String} selector
- * @param {Object} options [set options via arg object, data-* attrs, or just use the defaults]
+ * @param {Object} options - set options via arg object, data-* attrs, or just use the defaults
  * @returns {Cycle}
  */
-function Cycle (selector, options) {
-
+function Cycle(selector, options) {
     this.settings = utils.initSettings(selector, options);
 
     this.element = document.querySelector(this.settings.selector);
@@ -142,6 +156,10 @@ function Cycle (selector, options) {
     return this;
 }
 
+/**
+ *
+ * @type {{run: Function, delay: Function, pause: Function, resume: Function, next: Function, previous: Function, style: Function, fire: Function, on: Function, handleHover: Function}}
+ */
 Cycle.prototype = {
 
     /**
@@ -165,9 +183,9 @@ Cycle.prototype = {
     },
 
     /**
-     *
-     * @param {Number} timeout
-     * @param {Function} callback
+     * Delay Cycle's loop
+     * @param {Number} timeout - Time in MS to delay Cycle
+     * @param {Function} callback - Function to execute after delay
      * @chainable
      * @returns {Cycle}
      */
@@ -186,6 +204,7 @@ Cycle.prototype = {
     },
 
     /**
+     * Pause Cycle's loop
      * @chainable
      * @returns {Cycle}
      */
@@ -197,6 +216,7 @@ Cycle.prototype = {
     },
 
     /**
+     * Resume Cycle's loop
      * @chainable
      * @returns {Cycle}
      */
@@ -244,7 +264,7 @@ Cycle.prototype = {
     },
 
     /**
-     * @param {Array} customRules
+     * @param {Array} [customRules]
      * @chainable
      * @returns {Cycle}
      */
@@ -272,8 +292,9 @@ Cycle.prototype = {
     },
 
     /**
-     * @param {String} name
-     * @param {*} data
+     * Fire a Cycle event on `Cycle.element`
+     * @param {String} name - Event name, automatically prefixed with "cycle:"
+     * @param {*} data - Passed as first argument to Cycle's `on` method's callback
      * @chainable
      * @returns {Cycle}
      */
@@ -291,8 +312,9 @@ Cycle.prototype = {
     },
 
     /**
-     * @param {String} eventType
-     * @param {Function} callback
+     * Listen for events on `Cycle.element`
+     * @param {String} eventType - Event name
+     * @param {Function} callback - Function to be executed on event
      * @chainable
      * @returns {Cycle}
      */

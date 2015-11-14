@@ -1,0 +1,35 @@
+{
+  "name": "cycle",
+  "version": "0.0.3",
+  "description": "A dependency free javascript plugin for cycling DOM elements",
+  "main": "src/cycle.js",
+  "directories": {
+    "example": "example"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/bcruddy/Cycle.git"
+  },
+  "keywords": [
+    "javascript",
+    "image",
+    "cycle",
+    "cycle",
+    "dependency",
+    "free",
+    "vanillajs"
+  ],
+  "author": "Brian Ruddy",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/bcruddy/Cycle/issues"
+  },
+  "homepage": "https://github.com/bcruddy/Cycle#readme",
+  "dependencies": {
+    "jsdoc": "^3.3.3",
+    "jsdoc-to-markdown": "^1.2.1"
+  }
+}
