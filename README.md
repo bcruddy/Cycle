@@ -4,6 +4,8 @@ Cycle is a vanilla javascript plugin intended to cycle through images but will c
 
 Cycle injects it's own CSS at runtime, the whole thing is run and styled out of a single file.
 
+Read the [docs](https://github.com/bcruddy/Cycle/blob/master/docs.md)
+
 ### Usage
 
 If using more than one instance of Cycle, each requires a unique selector. If using two instances on a single page, they need to be instantiated individually.
@@ -46,9 +48,7 @@ Cycle's options can be set by an options object, data-* attributes, or falling b
 
 `pauseOnHover` (`data-pause-on-hover`): Pause cycle when hovering `cycle.element`, resume when the mouse leaves `cycle.element`
 
-### API
-
-#### Properties
+### Properties
 
 `element` An HTMLElement, this is the Cycle parent element. Use this for attaching non-cycle events.
 
@@ -58,23 +58,6 @@ Cycle's options can be set by an options object, data-* attributes, or falling b
 
 `active` An object initially containing the active index 
 
-
-#### Methods
-`style(customRules)` Accepts Array `customRules`, injects the Cycle styling. It accepts an array of custom CSS rules that are appended to the bottom of the stylesheet, overriding any default cycle styling
-
-`run()` starts to cycle infinite loop
-
-`delay(timeout, callback)` Accepts Number `timeout`  and Function `callback`. Pauses cycle, executes callback and resumes cycle after timeout.
-
-`next()` render the next slide
-
-`previous()` render the previous slide
-
-`pause()` pause a Cycle instance
-
-`resume()` resume a paused Cycle instance
-
-`on(event, callback)` attach event listener to Cycle object. Callback should accept two arguments, the first is the Cycle instance itself while the second is the actual event object.
 
 ### Events
 
