@@ -328,6 +328,5 @@ Cycle.prototype = {
 
         return this;
     }
-
-
 };
+
