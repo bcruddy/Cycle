@@ -4,7 +4,7 @@ Cycle is a vanilla javascript plugin intended to cycle through images but will c
 
 Cycle injects it's own CSS at runtime, the whole thing is run and styled out of a single file.
 
-Read the [docs](https://github.com/bcruddy/Cycle/blob/master/docs.md)
+Read the [docs file](https://github.com/bcruddy/Cycle/blob/master/docs.md) or see the JSDoc generated [github pages](https://bcruddy.github.io/Cycle)
 
 ### Usage
 
