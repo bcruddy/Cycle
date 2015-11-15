@@ -1,9 +1,10 @@
 /**
- * Cycle - a dependency free javascript plugin for cycling through images
+ * @file Cycle - a dependency free javascript plugin for cycling through images
  *
- * Created by <briancruddy at gmail dot com> @bcruddy
- * License: MIT (https://github.com/bcruddy/Cycle/blob/master/LICENSE)
- * URL: https://github.com/bcruddy/Cycle/
+ * @version 0.0.3
+ * @author Brian Ruddy <briancruddy at gmail dot com>
+ * @copyright 2015
+ * @license MIT
  *
  */
 
