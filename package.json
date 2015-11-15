@@ -28,7 +28,8 @@
     "url": "https://github.com/bcruddy/Cycle/issues"
   },
   "homepage": "https://github.com/bcruddy/Cycle#readme",
-  "dependencies": {
+  "dependencies": {},
+  "devDependencies": {
     "jsdoc": "^3.3.3",
     "jsdoc-to-markdown": "^1.2.1"
   }
