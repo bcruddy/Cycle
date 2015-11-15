@@ -27,7 +27,7 @@
   "bugs": {
     "url": "https://github.com/bcruddy/Cycle/issues"
   },
-  "homepage": "https://github.com/bcruddy/Cycle#readme",
+  "homepage": "https://bcruddy.github.io/Cycle",
   "dependencies": {},
   "devDependencies": {
     "jsdoc": "^3.3.3",
