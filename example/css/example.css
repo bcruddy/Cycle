@@ -1,3 +1,4 @@
-
+.container-fluid { width: 100%; } /* wtf bootstrap? */
+footer { position: fixed; bottom: 0; padding: 25px 5px; background-color: #EEE; }
 footer a { text-decoration: none; color: #333; }
 footer a:hover { opacity: 0.7; }

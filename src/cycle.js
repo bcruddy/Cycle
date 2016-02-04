@@ -137,8 +137,8 @@ var utils = (function () {
 
 /**
  * @constructor
- * @param {String} selector
- * @param {Object} options - set options via arg object, data-* attrs, or just use the defaults
+ * @param {String} [selector]
+ * @param {Object} [options] - set options via arg object, data-* attrs, or just use the defaults
  * @property {Object} settings - object containing a Cycle instance's settings
  * @property {HTMLElement} element - parent element, `fire` and `on` both reference this element
  * @property {NodeList} items - collection containing items that cycle loops through
@@ -148,12 +148,11 @@ var utils = (function () {
  * @returns {Cycle}
  */
 function Cycle(selector, options) {
-    this.settings = utils.initSettings(selector, options);
 
+    this.settings = utils.initSettings(selector, options);
     this.element = document.querySelector(this.settings.selector);
     this.items = utils.toArray(this.element.querySelectorAll(this.settings.target));
     this.captions = utils.toArray(this.element.querySelectorAll('.cycle-caption'));
-
     this.active = { index: 0 };
     this.continue = false;
 
@@ -177,7 +176,6 @@ Cycle.prototype = {
      */
     run: function () {
         this.fire('run', this);
-
         this.continue = true;
         this.handleHover();
 
