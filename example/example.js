@@ -37,14 +37,11 @@ var example = (function () {
     });
 
 
-    return {
-        info: 'cycle started',
-        cycle: cycle
-    };
+    return cycle;
 
 })();
 
 example.cycle.run().delay(5000);
 console.log('----- CYCLE INFO -----');
-console.log(example.info, example.cycle);
+console.log(cycle);
 console.log('----- START CYCLE -----');
